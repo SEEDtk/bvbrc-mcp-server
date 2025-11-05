@@ -263,6 +263,9 @@ async def oauth2_authorize(request, authentication_url: str):
     code_challenge = request.query_params.get("code_challenge")
     code_challenge_method = request.query_params.get("code_challenge_method")
     scope = request.query_params.get("scope", "")
+
+    with open("images/bvbrc_logo_base64.txt", "r") as f:
+        bvbrc_logo_base64 = f.read()
     
     # Validate required parameters
     if not client_id:
@@ -323,7 +326,7 @@ async def oauth2_authorize(request, authentication_url: str):
         <style>
             body {{
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: #f5f5f5;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -333,17 +336,28 @@ async def oauth2_authorize(request, authentication_url: str):
             }}
             .login-container {{
                 background: white;
-                border-radius: 12px;
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
                 padding: 40px;
                 width: 100%;
-                max-width: 400px;
+                max-width: 420px;
+            }}
+            .logo {{
+                text-align: center;
+                margin-bottom: 30px;
+            }}
+            .logo img {{
+                max-width: 315px;
+                height: auto;
+                display: block;
+                margin: 0 auto;
             }}
             h1 {{
                 color: #333;
                 margin: 0 0 10px 0;
-                font-size: 24px;
+                font-size: 22px;
                 text-align: center;
+                font-weight: 600;
             }}
             .subtitle {{
                 color: #666;
@@ -352,8 +366,8 @@ async def oauth2_authorize(request, authentication_url: str):
                 font-size: 14px;
             }}
             .client-info {{
-                background: #f7f7f7;
-                border-left: 4px solid #667eea;
+                background: #f5f5f5;
+                border-left: 4px solid #00567A;
                 padding: 12px;
                 margin-bottom: 25px;
                 border-radius: 4px;
@@ -380,39 +394,47 @@ async def oauth2_authorize(request, authentication_url: str):
             input[type="password"] {{
                 width: 100%;
                 padding: 12px;
-                border: 2px solid #e0e0e0;
+                border: 1px solid #d0d0d0;
                 border-radius: 6px;
                 font-size: 14px;
                 box-sizing: border-box;
                 transition: border-color 0.3s;
+                background: white;
+                color: #333;
             }}
             input[type="text"]:focus,
             input[type="password"]:focus {{
                 outline: none;
-                border-color: #667eea;
+                border-color: #00567A;
+            }}
+            input[type="text"]::placeholder,
+            input[type="password"]::placeholder {{
+                color: #999;
             }}
             button {{
                 width: 100%;
                 padding: 14px;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: #00567A;
                 color: white;
                 border: none;
                 border-radius: 6px;
                 font-size: 16px;
                 font-weight: 600;
                 cursor: pointer;
-                transition: transform 0.2s, box-shadow 0.2s;
+                transition: background-color 0.2s, transform 0.1s;
+                font-family: inherit;
             }}
             button:hover {{
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+                background: #004560;
+                transform: translateY(-1px);
             }}
             button:active {{
                 transform: translateY(0);
+                background: #003d50;
             }}
             .error {{
                 background: #fee;
-                border-left: 4px solid #f44;
+                border-left: 4px solid #d32f2f;
                 padding: 12px;
                 margin-bottom: 20px;
                 border-radius: 4px;
@@ -426,12 +448,22 @@ async def oauth2_authorize(request, authentication_url: str):
                 font-size: 12px;
                 color: #666;
             }}
+            .info a {{
+                color: #1976d2;
+                text-decoration: none;
+            }}
+            .info a:hover {{
+                text-decoration: underline;
+            }}
         </style>
     </head>
     <body>
         <div class="login-container">
-            <h1>🔐 BV-BRC Login</h1>
-            <p class="subtitle">Authorize access to your BV-BRC workspace</p>
+            <div class="logo">
+                <img src="{bvbrc_logo_base64}" alt="BV-BRC Logo" />
+            </div>
+            <h1>Login</h1>
+            <p class="subtitle">Authorize access to your BV-BRC MCP Resources</p>
             
             <div class="client-info">
                 <p><strong>Application:</strong> {client.get('client_name', 'ChatGPT')}</p>
@@ -462,7 +494,7 @@ async def oauth2_authorize(request, authentication_url: str):
             </form>
             
             <p class="info">
-                By logging in, you authorize this application to access your BV-BRC workspace on your behalf.
+                By logging in, you authorize this application to access your BV-BRC MCP Resources on your behalf.
             </p>
         </div>
         
