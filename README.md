@@ -59,9 +59,9 @@ Creates mcp_config.json
 
 Paste its contents into your chatbots mcp config file
 
-## MCP configuration setup
+## Instructions for MCP configuration Setup
 
-[Claude](https://support.claude.com/en/articles/11175166-getting-started-with-custom-connectors-using-remote-mcp).
+[Claude](https://support.claude.com/en/articles/11175166-getting-started-with-custom-connectors-using-remote-mcp)
 
 [ChatGPT](https://docs.atlan.com/product/capabilities/atlan-ai/how-tos/chatgpt-remote-mcp)
 
