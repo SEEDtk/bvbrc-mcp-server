@@ -46,7 +46,7 @@ A Model Context Protocol (MCP) server for the Bacterial-Viral Bioinformatics res
 </details>
 
 <details>
-<summary><h2>Connecting Your MCP Server to ChatGPT</h2></summary>
+<summary><h2>Connecting the BV-BRC MCP Server to ChatGPT</h2></summary>
 
 ### Step 1: Enable Developer Mode
 
@@ -85,10 +85,14 @@ A Model Context Protocol (MCP) server for the Bacterial-Viral Bioinformatics res
 <details>
 <summary><h2>MCP Development</h2></summary>
 
+## Note
+Local server development is recommended for working on MCP tools
+
 ## Installation
 
 Run the installation script, which will create the virtual python environment and install a data api and remaining requirements
 ```bash
+# clone the repository and enter it
 sh install.sh
 ```
 
