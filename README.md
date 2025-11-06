@@ -82,6 +82,9 @@ A unified Model Context Protocol (MCP) server:
 
 </details>
 
+<details>
+<summary><h2>MCP Development</h2></summary>
+
 ## Installation
 
 Run the installation script, which will create the virtual python environment and install a data api and remaining requirements
@@ -208,3 +211,5 @@ bvbrc-mcp-server/
     ├── service_tools.py             # Service job tools registration
     └── workspace_tools.py           # Workspace management tools registration
 ```
+
+</details>
