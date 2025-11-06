@@ -1,13 +1,13 @@
 # BVBRC Consolidated MCP Server
 
-A unified Model Context Protocol (MCP) server that consolidates three BVBRC services into a single server:
+A unified Model Context Protocol (MCP) server:
 - **Data Tools**: Query BVBRC Solr collections for genome, feature, and other biological data
 - **Service Tools**: Submit and manage BVBRC analysis jobs (assembly, annotation, BLAST, etc.)
 - **Workspace Tools**: Manage BVBRC workspace files, folders, and groups
 
 ## Features
 
-### Data Tools (MVP)
+### Data Tools
 - `query_collection`: Query any BVBRC Solr collection with flexible filtering
 - `solr_collection_parameters`: Get schema information for collections
 - `solr_query_instructions`: Get help on query syntax
@@ -92,7 +92,7 @@ The `config.json` file contains:
 
 Start the HTTP server:
 ```bash
-python http_server.py
+sh start_server.sh
 ```
 
 The server will start on the configured host and port (default: `127.0.0.1:12010`).
