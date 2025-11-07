@@ -108,6 +108,14 @@ A Model Context Protocol (MCP) server for the Bacterial-Viral Bioinformatics res
 <details>
 <summary><h2>Installing as a Claude Extension</h2></summary>
 
+Open your terminal
+
+0. Clone Github Repository
+   ```bash
+   git clone https://github.com/cucinellclark/bvbrc-mcp-server
+   cd bvbrc-mcp-server
+   ```
+
 1. Install the requirements:
    ```bash
    ./install.sh
