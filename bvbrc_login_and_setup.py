@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Generate mcp_config.json from mcp_example.json template with correct paths.
-Optionally authenticate and set KB_AUTH_TOKEN.
+Authenticate and set KB_AUTH_TOKEN (required).
 """
 
 import json
@@ -80,7 +80,7 @@ def authenticate(username: str, password: str, authentication_url: str) -> str:
         return None
 
 
-def generate_mcp_config():
+def bvbrc_login_and_setup():
     # Get the directory where this script is located
     script_dir = Path(__file__).parent.absolute()
     
@@ -129,45 +129,45 @@ def generate_mcp_config():
     config["mcpServers"]["bvbrc-mcp"]["command"] = str(python_path)
     config["mcpServers"]["bvbrc-mcp"]["args"] = [str(stdio_server_path)]
     
-    # Optionally authenticate and set KB_AUTH_TOKEN
+    # Authenticate and set KB_AUTH_TOKEN (required)
     print("\n" + "=" * 50)
-    print("Authentication (optional)")
+    print("BV-BVRC Login (required)")
     print("=" * 50)
-    auth_choice = input("Would you like to authenticate and set KB_AUTH_TOKEN? (y/n): ").strip().lower()
     
-    token = None
-    if auth_choice in ['y', 'yes']:
-        # Load config to get authentication URL
-        app_config = load_config(str(config_path))
-        authentication_url = app_config.get("authentication_url", "https://user.patricbrc.org/authenticate")
-        
-        # Prompt for username and password
-        username = input("Username: ").strip()
-        if not username:
-            print("Warning: No username provided, skipping authentication")
-        else:
-            password = getpass("Password: ")
-            if not password:
-                print("Warning: No password provided, skipping authentication")
-            else:
-                # Authenticate
-                token = authenticate(username, password, authentication_url)
-                if token:
-                    # Set KB_AUTH_TOKEN in the mcp_config.json
-                    if "env" not in config["mcpServers"]["bvbrc-mcp"]:
-                        config["mcpServers"]["bvbrc-mcp"]["env"] = {}
-                    config["mcpServers"]["bvbrc-mcp"]["env"]["KB_AUTH_TOKEN"] = token
-                    print(f"✓ KB_AUTH_TOKEN set in mcp_config.json")
-                    
-                    # Set KB_AUTH_TOKEN in the manifest.json if manifest template exists
-                    if manifest_config:
-                        if "server" in manifest_config and "mcp_config" in manifest_config["server"]:
-                            if "env" not in manifest_config["server"]["mcp_config"]:
-                                manifest_config["server"]["mcp_config"]["env"] = {}
-                            manifest_config["server"]["mcp_config"]["env"]["KB_AUTH_TOKEN"] = token
-                            print(f"✓ KB_AUTH_TOKEN set in manifest.json")
-                else:
-                    print("Warning: Authentication failed, KB_AUTH_TOKEN not set")
+    # Load config to get authentication URL
+    app_config = load_config(str(config_path))
+    authentication_url = app_config.get("authentication_url", "https://user.patricbrc.org/authenticate")
+    
+    # Prompt for username and password
+    username = input("Username: ").strip()
+    if not username:
+        print("Error: Username is required")
+        return 1
+    
+    password = getpass("Password: ")
+    if not password:
+        print("Error: Password is required")
+        return 1
+    
+    # Authenticate
+    token = authenticate(username, password, authentication_url)
+    if not token:
+        print("Error: Authentication failed. Cannot proceed without valid token.")
+        return 1
+    
+    # Set KB_AUTH_TOKEN in the mcp_config.json
+    if "env" not in config["mcpServers"]["bvbrc-mcp"]:
+        config["mcpServers"]["bvbrc-mcp"]["env"] = {}
+    config["mcpServers"]["bvbrc-mcp"]["env"]["KB_AUTH_TOKEN"] = token
+    print(f"✓ KB_AUTH_TOKEN set in mcp_config.json")
+    
+    # Set KB_AUTH_TOKEN in the manifest.json if manifest template exists
+    if manifest_config:
+        if "server" in manifest_config and "mcp_config" in manifest_config["server"]:
+            if "env" not in manifest_config["server"]["mcp_config"]:
+                manifest_config["server"]["mcp_config"]["env"] = {}
+            manifest_config["server"]["mcp_config"]["env"]["KB_AUTH_TOKEN"] = token
+            print(f"✓ KB_AUTH_TOKEN set in manifest.json")
     
     # Write the mcp_config.json output
     with open(output_path, 'w') as f:
@@ -182,21 +182,15 @@ def generate_mcp_config():
     print(f"Successfully generated {output_path}")
     print(f"  Python: {python_path}")
     print(f"  Server: {stdio_server_path}")
-    if config["mcpServers"]["bvbrc-mcp"].get("env", {}).get("KB_AUTH_TOKEN"):
-        print(f"  KB_AUTH_TOKEN: Set ✓")
-    else:
-        print(f"  KB_AUTH_TOKEN: Not set")
+    print(f"  KB_AUTH_TOKEN: Set ✓")
     
     if manifest_config:
         print(f"\nSuccessfully generated {manifest_output_path}")
-        if manifest_config.get("server", {}).get("mcp_config", {}).get("env", {}).get("KB_AUTH_TOKEN"):
-            print(f"  KB_AUTH_TOKEN: Set ✓")
-        else:
-            print(f"  KB_AUTH_TOKEN: Not set")
+        print(f"  KB_AUTH_TOKEN: Set ✓")
     
     return 0
 
 
 if __name__ == "__main__":
-    exit(generate_mcp_config())
+    exit(bvbrc_login_and_setup())
 

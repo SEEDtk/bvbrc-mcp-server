@@ -120,7 +120,7 @@ A Model Context Protocol (MCP) server for the Bacterial-Viral Bioinformatics res
 
 3. Generate the MCP configuration file (if you haven't already):
    ```bash
-   python3 generate_mcp_config.py
+   python3 bvbrc_login_and_setup.py
    ```
 
 4. Pack the extension:
@@ -156,7 +156,7 @@ Run the installation script, which will create the virtual python environment an
 
 Generate mcp config file:
 ```bash
-python3 generate_mcp_config.py
+python3 bvbrc_login_and_setup.py
 ```
 Creates mcp_config.json
 
@@ -239,10 +239,10 @@ bvbrc-mcp-server/
 ├── requirements.txt                 # Python dependencies
 ├── start_server.sh                  # Server startup script
 ├── stdio_server.py                  # STDIO server (for Claude Desktop, etc.)
+├── bvbrc_login_and_setup.py        # Script to login and generate MCP config file
 ├── common/                          # Common utility modules
 │   ├── __init__.py
 │   ├── auth.py                      # OAuth2 authentication endpoints (HTTP only)
-│   ├── generate_mcp_config.py       # Script to generate MCP config file
 │   ├── json_rpc.py                  # JSON-RPC client for API calls
 │   └── token_provider.py            # Unified authentication token handling
 ├── config/                          # Configuration files
