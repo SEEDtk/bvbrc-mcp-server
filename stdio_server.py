@@ -18,10 +18,10 @@ import os
 
 # Load configuration
 try:
-    with open("config.json", "r") as f:
+    with open("config/config.json", "r") as f:
         config = json.load(f)
 except FileNotFoundError:
-    print("Warning: config.json not found, using defaults", file=sys.stderr)
+    print("Warning: config/config.json not found, using defaults", file=sys.stderr)
     config = {}
 
 # Get configuration values

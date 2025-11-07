@@ -13,7 +13,7 @@ except ImportError:
 class TokenProvider:
     """Handles token retrieval for both stdio and HTTP modes"""
     
-    def __init__(self, mode: str = "stdio", config_path: str = "config.json", mcp_config_path: str = "mcp_config.json"):
+    def __init__(self, mode: str = "stdio", config_path: str = "config/config.json", mcp_config_path: str = "config/mcp_config.json"):
         self.mode = mode
         self.config_path = config_path
         self.mcp_config_path = mcp_config_path

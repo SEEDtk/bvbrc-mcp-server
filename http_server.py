@@ -18,7 +18,7 @@ import os
 from auth import BvbrcOAuthProvider
 
 # Load configuration
-with open("config.json", "r") as f:
+with open("config/config.json", "r") as f:
     config = json.load(f)
 
 # Get configuration values

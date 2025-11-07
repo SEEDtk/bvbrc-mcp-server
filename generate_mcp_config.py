@@ -11,7 +11,7 @@ from pathlib import Path
 from getpass import getpass
 
 
-def load_config(config_path: str = "config.json") -> dict:
+def load_config(config_path: str = "config/config.json") -> dict:
     """Load configuration from config.json"""
     config_file = Path(config_path)
     if not config_file.exists():
@@ -85,13 +85,13 @@ def generate_mcp_config():
     script_dir = Path(__file__).parent.absolute()
     
     # Define paths
-    template_path = script_dir / "mcp_example.json"
-    output_path = script_dir / "mcp_config.json"
-    manifest_template_path = script_dir / "manifest_template.json"
-    manifest_output_path = script_dir / "manifest.json"
+    template_path = script_dir / "config" / "mcp_example.json"
+    output_path = script_dir / "config" / "mcp_config.json"
+    manifest_template_path = script_dir / "config" / "manifest_template.json"
+    manifest_output_path = script_dir / "config" / "manifest.json"
     mcp_env_path = script_dir / "mcp_env"
     stdio_server_path = script_dir / "stdio_server.py"
-    config_path = script_dir / "config.json"
+    config_path = script_dir / "config" / "config.json"
     
     # Check if template exists
     if not template_path.exists():
