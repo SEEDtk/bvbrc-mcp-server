@@ -6,6 +6,7 @@ This module contains MCP tools for querying MVP (Minimum Viable Product) data fr
 """
 
 import json
+import re
 from typing import Optional
 
 from fastmcp import FastMCP
@@ -48,8 +49,11 @@ def register_data_tools(mcp: FastMCP, base_url: str):
             options["sort"] = sort
 
         # Do query translation here.
-        if collection == "specialty_gene":
-            collection = "sp_gene"
+        if collection == "genome_feature":
+            m = re.search(r"virulence.*:\S+", filter_str)
+            if m:
+                filter_str = filter_str[:m.start()] + filter_str[m.end():]
+                collection = "sp_gene"
         
         try:
             result, count = query_direct(collection, filter_str, options, _base_url)
