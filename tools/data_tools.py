@@ -42,12 +42,18 @@ def register_data_tools(mcp: FastMCP, base_url: str):
         Returns:
             Formatted query results
         """
-        print(f"Querying collection: {collection} with filter: {filter_str}")
+        print(f"Querying collection: {collection}")
         options = {}
         if select:
             options["select"] = select.split(",")
         if sort:
             options["sort"] = sort
+        # If we have a genome_feature query, we need to insure only patric features come back.
+        if not filter_str:
+            filter_str = "patric_id:*"
+        elif collection == "genome_feature" and not re.search(r"\bpatric_id:", filter_str):
+            filter_str += " AND patric_id:*"
+        print(f"Filter is {filter_str}")
 
         try:
             result, count = query_direct(collection, filter_str, options, _base_url)
