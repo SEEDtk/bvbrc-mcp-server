@@ -37,7 +37,11 @@ def register_data_tools(mcp: FastMCP, base_url: str):
             filter_str: Solr query expression (e.g., "genome_id:123.45" or "species:\"Escherichia coli\"")
             select: Comma-separated list of fields to select (optional)
             sort: Field to sort by (optional)
-        
+
+        Notes: Information on genome resistance to antibiotics is in the genome_amr table. Information on
+            special feature properties like Antibiotic Resistance, Virulence Factor, and Essential Gene is in the
+            sp_gene table. To find which features are in a subsystem, use the subsystem_ref table.
+
         Returns:
             Formatted query results
         """
