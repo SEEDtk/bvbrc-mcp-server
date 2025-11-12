@@ -69,7 +69,7 @@ def register_data_tools(mcp: FastMCP, base_url: str, token_provider=None):
             - If countOnly is True: {"count": <total_count>}
             - Otherwise: {"count": <batch_count>, "results": [...], "nextCursorId": <str|None>}
         """
-        print(f"Querying collection: {collection}")
+        print(f"Querying collection: {collection}, count flag = {countOnly}.")
         options = {}
         if select:
             options["select"] = select.split(",")
