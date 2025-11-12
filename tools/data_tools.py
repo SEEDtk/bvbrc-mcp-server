@@ -58,6 +58,8 @@ def register_data_tools(mcp: FastMCP, base_url: str, token_provider=None):
             sp_gene table. To find which features are in a subsystem, use the subsystem_ref table. Use the
             genome_name field to search for an organism by name. Note that antibiotic names are case-sensitive
             and stored in all lower case (e.g. "methicillin").
+
+            In the filter string, any field value with spaces in it must be enclosed in double quotes or parentheses.
             
             The solr_collection_parameters tool lists all the field names for each collection. This tool should
             be checked to avoid Bad Request errors.
