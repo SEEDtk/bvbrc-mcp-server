@@ -74,6 +74,9 @@ def register_data_tools(mcp: FastMCP, base_url: str, token_provider=None):
             appropriate MD5 value to query the feature_sequence table using the md5 field as the key, and extract the
             sequence from the sequence field.
 
+            In the genome_feature table, whenever possible, the patric_id should be used instead of the feature_id, as
+            only the patric_id is made visible to the end user. Patric IDs always begin with "fig|".
+
         Returns:
             JSON string with query results:
             - If countOnly is True: {"count": <total_count>}
