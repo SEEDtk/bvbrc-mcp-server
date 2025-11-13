@@ -58,6 +58,8 @@ def get_service_info(service_name: str) -> str:
 def enumerate_apps(api: JsonRpcCaller, token: str = None, user_id: str = None) -> List[str]:
     try:
         result = api.call("AppService.enumerate_apps", {}, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -76,6 +78,8 @@ def start_date_app(api: JsonRpcCaller, token: str = None, user_id: str = None, o
         data = ["Date", params, {}]
         
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -130,6 +134,8 @@ def start_genome_annotation_app(api: JsonRpcCaller, token: str = None, user_id: 
         })
         data = ["GenomeAnnotation", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -138,6 +144,8 @@ def start_genome_annotation_app(api: JsonRpcCaller, token: str = None, user_id: 
 def query_tasks(api: JsonRpcCaller, token: str = None, user_id: str = None, params: Dict[str, Any] = None) -> str:
     try:
         result = api.call("AppService.query_tasks", [params['task_ids']], _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -169,6 +177,8 @@ def start_genome_assembly_app(api: JsonRpcCaller, token: str = None, user_id: st
         })
         data = ["GenomeAssembly", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -213,6 +223,8 @@ def start_comprehensive_genome_analysis_app(api: JsonRpcCaller, token: str = Non
         })
         data = [app_name, params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -259,10 +271,9 @@ def start_blast_app(api: JsonRpcCaller, token: str = None, user_id: str = None, 
         print(f"result type: {type(result)}, result: {result}", file=sys.stdout)
         if result is None:
             return "Error: No result returned from API"
-        # Handle both list and dict results
         if isinstance(result, (list, dict)):
             return json.dumps(result, indent=2)
-        return str(result)
+        return result
     except Exception as e:
         import traceback
         error_trace = traceback.format_exc()
@@ -304,6 +315,8 @@ def start_primer_design_app(api: JsonRpcCaller, token: str = None, user_id: str 
         })
         data = ["PrimerDesign", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -327,6 +340,8 @@ def start_variation_app(api: JsonRpcCaller, token: str = None, user_id: str = No
         })
         data = ["Variation", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -350,6 +365,8 @@ def start_tnseq_app(api: JsonRpcCaller, token: str = None, user_id: str = None, 
         })
         data = ["TnSeq", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -408,6 +425,8 @@ def start_gene_tree_app(api: JsonRpcCaller, token: str = None, user_id: str = No
         })
         data = [app_name, params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -430,6 +449,8 @@ def start_core_genome_mlst_app(api: JsonRpcCaller, token: str = None, user_id: s
         })
         data = ["CoreGenomeMLST", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -453,6 +474,8 @@ def start_whole_genome_snp_app(api: JsonRpcCaller, token: str = None, user_id: s
         })
         data = [app_name, params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -478,6 +501,8 @@ def start_taxonomic_classification_app(api: JsonRpcCaller, token: str = None, us
         })
         data = ["TaxonomicClassification", params, { 'base_url': 'https://www.bv-brc.org' }]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -512,6 +537,8 @@ def start_metagenomic_binning_app(api: JsonRpcCaller, token: str = None, user_id
         })
         data = [app_name, params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -535,6 +562,8 @@ def start_metagenomic_read_mapping_app(api: JsonRpcCaller, token: str = None, us
         })
         data = [app_name, params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -564,6 +593,8 @@ def start_rnaseq_app(api: JsonRpcCaller, token: str = None, user_id: str = None,
         })
         data = [app_name, params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -583,6 +614,8 @@ def start_expression_import_app(api: JsonRpcCaller, token: str = None, user_id: 
         })
         data = ["ExpressionImport", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -617,6 +650,8 @@ def start_sars_wastewater_analysis_app(api: JsonRpcCaller, token: str = None, us
         })
         data = ["SARSWastewaterAnalysis", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -650,6 +685,8 @@ def start_sequence_submission_app(api: JsonRpcCaller, token: str = None, user_id
         })
         data = ["SequenceSubmission", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -672,6 +709,8 @@ def start_influenza_ha_subtype_conversion_app(api: JsonRpcCaller, token: str = N
         })
         data = ["InfluenzaHASubtypeConversion", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -694,6 +733,8 @@ def start_subspecies_classification_app(api: JsonRpcCaller, token: str = None, u
         })
         data = ["SubspeciesClassification", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -717,6 +758,8 @@ def start_viral_assembly_app(api: JsonRpcCaller, token: str = None, user_id: str
         })
         data = ["ViralAssembly", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -739,6 +782,8 @@ def start_fastq_utils_app(api: JsonRpcCaller, token: str = None, user_id: str = 
         print(json.dumps(params, indent=4))
         data = [app_name, params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -765,6 +810,8 @@ def start_genome_alignment_app(api: JsonRpcCaller, token: str = None, user_id: s
         })
         data = ["GenomeAlignment", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -791,6 +838,8 @@ def start_sars_genome_analysis_app(api: JsonRpcCaller, token: str = None, user_i
         })
         data = ["SARS2Assembly", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -820,6 +869,8 @@ def start_msa_snp_analysis_app(api: JsonRpcCaller, token: str = None, user_id: s
         })
         data = ["MSA", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -846,6 +897,8 @@ def start_metacats_app(api: JsonRpcCaller, token: str = None, user_id: str = Non
         })
         data = ["MetaCATS", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -870,6 +923,8 @@ def start_proteome_comparison_app(api: JsonRpcCaller, token: str = None, user_id
         })
         data = ["GenomeComparison", params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -888,6 +943,8 @@ def start_comparative_systems_app(api: JsonRpcCaller, token: str = None, user_id
         })
         data = [app_name, params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -913,6 +970,8 @@ def start_docking_app(api: JsonRpcCaller, token: str = None, user_id: str = None
         })
         data = [app_name, params, {}]
         result = api.call("AppService.start_app2", data, _generate_numerical_uuid(), token)
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
         return result
     except Exception as e:
         print(e)
@@ -936,8 +995,9 @@ def start_similar_genome_finder_app(api: JsonRpcCaller, token: str = None, user_
             return "Error: selectedGenomeId or fasta_file is required"
         
         result = api.call(function_call, params, _generate_numerical_uuid(), token)
-        output_headers = ['genome_id','distance','pvalue','kmers']
-        return output_headers, result
+        if isinstance(result, (list, dict)):
+            return json.dumps(result, indent=2)
+        return result
     except Exception as e:
         print(e)
         return []

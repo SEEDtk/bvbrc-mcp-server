@@ -7,7 +7,7 @@ import hashlib
 import base64
 from uuid import uuid4
 from typing import Any, Dict, TYPE_CHECKING, Optional
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse
 from starlette.responses import JSONResponse, HTMLResponse, RedirectResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
@@ -42,6 +42,8 @@ class BvbrcOAuthProvider(AuthProvider):
         super().__init__(base_url=base_url, required_scopes=["profile", "token"])
         self.openid_config_url = openid_config_url
         self.authentication_url = authentication_url
+        # Note: All localhost URLs (localhost, 127.0.0.1, any port) are automatically allowed
+        # in addition to the URLs in this list
         self.allowed_callback_urls = allowed_callback_urls or [
             "https://chatgpt.com/connector_platform_oauth_redirect",
             "https://claude.ai/api/mcp/auth_callback"
@@ -223,6 +225,17 @@ ALLOWED_CALLBACK_URLS = [
     "https://claude.ai/api/mcp/auth_callback"
 ]
 
+def is_localhost_url(url: str) -> bool:
+    """
+    Check if a URL is a localhost URL (localhost or 127.0.0.1, any port).
+    """
+    try:
+        parsed = urlparse(url)
+        hostname = parsed.hostname or ""
+        return hostname.lower() in ("localhost", "127.0.0.1", "::1") or hostname.startswith("127.")
+    except Exception:
+        return False
+
 def get_registered_client(client_id: str) -> dict | None:
     """Legacy helper used by module-level endpoints."""
     return registered_clients.get(client_id)
@@ -374,12 +387,12 @@ async def oauth2_authorize(request, authentication_url: str):
             status_code=400
         )
     
-    # Validate redirect_uri is whitelisted
-    if redirect_uri not in ALLOWED_CALLBACK_URLS:
+    # Validate redirect_uri is whitelisted (allow localhost URLs or URLs in allowed list)
+    if redirect_uri not in ALLOWED_CALLBACK_URLS and not is_localhost_url(redirect_uri):
         return JSONResponse(
             content={
                 "error": "invalid_request",
-                "error_description": f"redirect_uri '{redirect_uri}' is not whitelisted. Allowed: {ALLOWED_CALLBACK_URLS}"
+                "error_description": f"redirect_uri '{redirect_uri}' is not whitelisted. Allowed: {ALLOWED_CALLBACK_URLS} or any localhost URL"
             },
             status_code=400
         )
