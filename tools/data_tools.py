@@ -110,7 +110,7 @@ def register_data_tools(mcp: FastMCP, base_url: str, token_provider=None):
             result = query_direct(collection, filter_str, options, _base_url, 
                                  headers=headers, cursorId=cursorId, countOnly=countOnly)
             print(f"Query returned {result['count']} results.")
-            return json.dumps(result, indent=2)
+            return json.dumps(result, indent=2, sort_keys=True)
         except Exception as e:
             return json.dumps({
                 "error": f"Error querying {collection}: {str(e)}"
