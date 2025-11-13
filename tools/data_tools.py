@@ -69,6 +69,11 @@ def register_data_tools(mcp: FastMCP, base_url: str, token_provider=None):
 
             When countOnly is True, use the minimum number of fields in the select parameter to reduce the number of fields returned.
 
+            To find a DNA or protein sequence for a genome feature, you need to call this method twice, first using the
+            genome_feature table to get the aa_sequence_md5 or na_sequence_md5 for the feature. Then you can use the
+            appropriate MD5 value to query the feature_sequence table using the md5 field as the key, and extract the
+            sequence from the sequence field.
+
         Returns:
             JSON string with query results:
             - If countOnly is True: {"count": <total_count>}
