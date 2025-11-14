@@ -125,7 +125,7 @@ def register_workspace_tools(mcp: FastMCP, api: JsonRpcCaller, token_provider: T
         return str(result)
 
     @mcp.tool()
-    def workspace_search_tool(token: Optional[str] = None, search_term: Optional[str] = None, paths: List[str] = None, file_extension: Optional[str] = None) -> str:
+    def workspace_search_tool(token: Optional[str] = None, search_term: Optional[str] = None, paths: List[str] = None, file_extension: Optional[str] = None, file_types: Optional[str | List[str]] = None) -> str:
         """Search the workspace for a given term and/or file extension.
 
         Args:
@@ -133,21 +133,22 @@ def register_workspace_tools(mcp: FastMCP, api: JsonRpcCaller, token_provider: T
             search_term: Optional term to search the workspace for in file names.
             paths: Optional list of paths to search (relative to user's home directory). If empty or None, searches user home directory.
             file_extension: Optional file extension to filter by (e.g., 'py', 'txt', 'json'). Can include or exclude the leading dot.
-                           At least one of search_term or file_extension must be provided.
+            file_types: Optional file type(s) to filter by. Can be a string or list of strings
+                       (e.g., 'contigs', 'folder', 'unspecified', 'genome_group', 'feature_group', 'reads').
+                       If provided, only files/objects with these types will be returned. This filters by the workspace object type,
+                       not by file extension, so it can match files with different extensions that share the same type.
+                       At least one of search_term, file_extension, or file_types must be provided.
 
         Note: Paths are relative to the user's home directory. If no paths are provided, the search will be performed in the user's home directory.
         """
-        if not search_term and not file_extension:
-            return "Error: search_term or file_extension parameter is required"
-
-        if search_term and file_extension:
-            return "Error: only one of search_term or file_extension parameter can be provided"
+        if not search_term and not file_extension and not file_types:
+            return "Error: at least one of search_term, file_extension, or file_types parameter is required"
 
         if not search_term:
-            search_term = ""
+            search_term = None
 
         if not file_extension:
-            file_extension = ""
+            file_extension = None
 
         # Get the appropriate token (automatically checks Authorization header in HTTP mode)
         auth_token = token_provider.get_token(token)
@@ -158,9 +159,9 @@ def register_workspace_tools(mcp: FastMCP, api: JsonRpcCaller, token_provider: T
         user_id = extract_userid_from_token(auth_token)
         paths = resolve_relative_paths(paths or [], user_id)
 
-        print(f"Searching in paths: {paths}, user_id: {user_id}, term: {search_term}, extension: {file_extension}", file=sys.stderr)
-        result = workspace_search(api, paths, search_term, file_extension, auth_token)
-        print(f"Search result: {result}", file=sys.stderr)  
+        print(f"Searching in paths: {paths}, user_id: {user_id}, term: {search_term}, extension: {file_extension}, file_types: {file_types}", file=sys.stderr)
+        result = workspace_search(api, paths, search_term, file_extension, file_types, auth_token)
+        print(f"Search result: {result}", file=sys.stderr)
         return str(result)
 
     @mcp.tool()
